@@ -1,14 +1,3 @@
-# 這個映像檔內包含
-1. Ubuntu 18.04
-2. ROS melodic
-3. yolo v4 ROS package
-4. OpenCV3.2
-5. Cuda 10.2
-
-
-# Now create a script to run the image called run_my_image.bash
-
-```
 XAUTH=/tmp/.docker.xauth
 if [ ! -f $XAUTH ]
 then
@@ -34,18 +23,5 @@ docker run -it \
     --runtime=nvidia \
     --privileged \
     --volume=/dev:/dev \
-    samkaiyang/ubuntu_solomon:($tag_version))\
+    samkaiyang/ubuntu_solomon:v1.05 \
     /bin/bash
-```
-# Make the script executable
-```
-chmod a+x run_my_image.bash
-```
-# Execute the script
-```
-./run_my_image.bash
-```
-# If you want to add multiple terminals, you can enter the following commands in the new terminal
-```
-docker exec -it --user root ($CONTAINER ID) /bin/bash
-```

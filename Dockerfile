@@ -12,6 +12,12 @@ USER root
 #環境
 ARG DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
+# nvidia-container-runtime
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
+
 
 ARG SSH_PRIVATE_KEY
 
@@ -130,12 +136,67 @@ RUN apt-get install -y ros-melodic-image-view && \
 
 
 
-#----add realsense package
-WORKDIR /Documents/flycapture
-RUN sudo sh install_flycapture.sh
-WORKDIR /Documents/yolov4_ws/src/rs_d435i
-SHELL ["/bin/bash","-c"]
-RUN source create_catkin_ws.sh
+#-------------------------------add realsense package
+# WORKDIR /Documents/flycapture
+# RUN sudo sh install_flycapture.sh
+RUN apt-get update && apt-get install ros-melodic-ddynamic-reconfigure
+#--------------------------------------------------add 0811-----------------------------#
+# set the version of the realsense library
+ENV LIBREALSENSE_VERSION 2.36.0
+ENV LIBREALSENSE_ROS_VERSION 2.2.15
+
+# set working directory
+RUN mkdir -p /code
+WORKDIR /code
+
+# install dependencies
+RUN apt update && \
+  DEBIAN_FRONTEND=noninteractive apt install -y \
+  wget \
+  python-rosinstall \
+  python-catkin-tools \
+  ros-melodic-jsk-tools \
+  ros-melodic-rgbd-launch \
+  ros-melodic-image-transport-plugins \
+  ros-melodic-image-transport \
+  libusb-1.0-0 \
+  libusb-1.0-0-dev \
+  freeglut3-dev \
+  libgtk-3-dev \
+  libglfw3-dev && \
+  # clear cache
+  rm -rf /var/lib/apt/lists/*
+
+# install librealsense
+RUN cd /tmp && \
+  wget https://github.com/IntelRealSense/librealsense/archive/v${LIBREALSENSE_VERSION}.tar.gz && \
+  tar -xvzf v${LIBREALSENSE_VERSION}.tar.gz && \
+  rm v${LIBREALSENSE_VERSION}.tar.gz && \
+  mkdir -p librealsense-${LIBREALSENSE_VERSION}/build && \
+  cd librealsense-${LIBREALSENSE_VERSION}/build && \
+  cmake .. && \
+  make && \
+  make install && \
+  rm -rf librealsense-${LIBREALSENSE_VERSION}
+
+# install ROS package
+RUN mkdir -p /code/src && \
+  cd /code/src/ && \
+  wget https://github.com/IntelRealSense/realsense-ros/archive/${LIBREALSENSE_ROS_VERSION}.tar.gz && \
+
+  tar -xvzf ${LIBREALSENSE_ROS_VERSION}.tar.gz && \
+  rm ${LIBREALSENSE_ROS_VERSION}.tar.gz && \
+  mv realsense-ros-${LIBREALSENSE_ROS_VERSION}/realsense2_camera ./ && \
+  rm -rf realsense-${LIBREALSENSE_ROS_VERSION}
+
+# build ROS package
+RUN . /opt/ros/melodic/setup.sh && \
+  catkin build
+
+#------------------------------------------------0811--------------------------------------------##
+#WORKDIR /Documents/yolov4_ws/src/rs_d435i
+#SHELL ["/bin/bash","-c"]
+#RUN source create_catkin_ws.sh
 WORKDIR /Documents/yolov4_ws/src/darknet_ros/darknet_ros/yolo_network_config/weight
 RUN wget https://github.com/AlexeyAB/darknet/releases/download/darknet_yolo_v3_optimal/yolov4.weights
 

@@ -13,22 +13,21 @@ RELEASE_TYPE=3
 RELEASE_BUILD=121
 INFORMATIONAL_VERSION=2.11.3.201703300001
 RELEASE_TYPE_TEXT=Release
-
-echo "This is a script to assist with installation of the FlyCapture2 SDK.";
-echo "Would you like to continue and install all the FlyCapture2 SDK packages?";
-echo -n "$MY_YESNO_PROMPT"
-#read confirm
-confirm = 'y'
-if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
-then
-    exit 0
-    break
-fi
+# confirm= "y"
+# echo "This is a script to assist with installation of the FlyCapture2 SDK.";
+# echo "Would you like to continue and install all the FlyCapture2 SDK packages?";
+# echo -n "$MY_YESNO_PROMPT"
+# read confirm
+# if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
+# then
+#     exit 0
+#     break
+# fi
 
 echo
 
 echo "Installing FlyCapture2 packages...";
-
+sudo apt-get install -y libraw1394-11 libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 
 sudo dpkg -i libflycapture-2*
 sudo dpkg -i libflycapturegui-2*
 sudo dpkg -i libflycapture-c-2*
@@ -44,12 +43,12 @@ echo "If this is not ran then your cameras may be only accessible by running fly
 echo -n "$MY_YESNO_PROMPT"
 #read confirm
 
-if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
-then
-	echo "Complete";
-    exit 0
-    break
-fi
+# if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
+# then
+# 	echo "Complete";
+#     exit 0
+#     break
+# fi
 
 echo "Launching conf script";
 sudo sh flycap2-conf

@@ -4,7 +4,7 @@
 # `python3-dev` and `python3-catkin-pkg-modules` is needed to build cv_bridge
 # `python3-numpy` and `python3-yaml` is cv_bridge dependencies
 # `ros-kinetic-cv-bridge` is needed to install a lot of cv_bridge deps. Probaply you already have it installed.
-sudo apt-get install python-catkin-tools python3-dev python3-catkin-pkg-modules python3-numpy python3-yaml ros-melodic-cv-bridge
+sudo apt-get install -y python-catkin-tools python3-dev python3-catkin-pkg-modules python3-numpy python3-yaml ros-melodic-cv-bridge
 # Create catkin workspace
 cd ../../
 mkdir catkin_workspace
