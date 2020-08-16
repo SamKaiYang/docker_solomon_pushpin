@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -o errexit
+# set -o errexit
 
-MY_PROMPT='$ '
-MY_YESNO_PROMPT='(y/n)$ '
+# MY_PROMPT='$ '
+# MY_YESNO_PROMPT='(y/n)$ '
 
 # version of the software
 MAJOR_VERSION=2
@@ -13,21 +13,23 @@ RELEASE_TYPE=3
 RELEASE_BUILD=121
 INFORMATIONAL_VERSION=2.11.3.201703300001
 RELEASE_TYPE_TEXT=Release
-# confirm= "y"
+
 # echo "This is a script to assist with installation of the FlyCapture2 SDK.";
 # echo "Would you like to continue and install all the FlyCapture2 SDK packages?";
 # echo -n "$MY_YESNO_PROMPT"
 # read confirm
-# if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
+
+# if [ $confirm = "n" ] || [ $confirm = "N" ] || [ $confirm = "no" ] || [ $confirm = "No" ]
 # then
 #     exit 0
 #     break
 # fi
 
-echo
+# echo
 
 echo "Installing FlyCapture2 packages...";
 sudo apt-get install -y libraw1394-11 libgtkmm-2.4-dev libglademm-2.4-dev libgtkglextmm-x11-1.2-dev libusb-1.0-0 
+apt --fix-broken install
 sudo dpkg -i libflycapture-2*
 sudo dpkg -i libflycapturegui-2*
 sudo dpkg -i libflycapture-c-2*
@@ -38,12 +40,12 @@ sudo dpkg -i flycap-2*
 sudo dpkg -i flycapture-doc-2*
 sudo dpkg -i updatorgui*
 
-echo "Would you like to add a udev entry to allow access to IEEE-1394 and USB hardware?";
-echo "If this is not ran then your cameras may be only accessible by running flycap as sudo.";
-echo -n "$MY_YESNO_PROMPT"
-#read confirm
+# echo "Would you like to add a udev entry to allow access to IEEE-1394 and USB hardware?";
+# echo "If this is not ran then your cameras may be only accessible by running flycap as sudo.";
+# echo -n "$MY_YESNO_PROMPT"
+# read confirm
 
-# if [ confirm = "n" ] || [ confirm = "N" ] || [ confirm = "no" ] || [ confirm = "No" ]
+# if [ $confirm = "n" ] || [ $confirm = "N" ] || [ $confirm = "no" ] || [ $confirm = "No" ]
 # then
 # 	echo "Complete";
 #     exit 0
@@ -58,4 +60,4 @@ echo "Complete";
 # Notify server of a linux installation
 wget -T 10 -q --spider http://www.ptgrey.com/support/softwarereg.asp?text=ProductName+Linux+FlyCapture2+$MAJOR_VERSION%2E$MINOR_VERSION+$RELEASE_TYPE_TEXT+$RELEASE_BUILD+%0D%0AProductVersion+$MAJOR_VERSION%2E$MINOR_VERSION%2E$RELEASE_TYPE%2E$RELEASE_BUILD%0D%0A
 
-exit 0
+# exit 0

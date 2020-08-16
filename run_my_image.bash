@@ -23,5 +23,5 @@ docker run -it \
     --runtime=nvidia \
     --privileged \
     --volume=/dev:/dev \
-    samkaiyang/ubuntu_solomon:v1.05 \
+    samkaiyang/ubuntu_solomon:v1.11 \
     /bin/bash
